@@ -61,3 +61,7 @@ def chat():
     config=config
   )
   return {"message": response.content, "language": dto.language}
+
+@app.route("/healthcheck", methods=["GET"])
+def healthcheck():
+  return {"status": "Healthy"}
