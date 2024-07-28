@@ -1,0 +1,17 @@
+name: GitHub Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+    paths-ignore:
+      - '**/README.md'
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  CI:
+    uses: BrunoBrasolin/workflow-template/.github/workflows/python-docker-ci.yml@main
+    with:
+      applicationName: api-chat
+    secrets: inherit
