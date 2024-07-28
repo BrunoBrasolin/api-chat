@@ -15,3 +15,12 @@ jobs:
     with:
       applicationName: api-chat
     secrets: inherit
+
+  CD:
+    needs: CI
+    uses: BrunoBrasolin/workflow-template/.github/workflows/python-docker-cd.yml@main
+    with:
+      dockerAccount: brunobrasolin
+      applicationName: api-chat
+      port: 83
+    secrets: inherit

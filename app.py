@@ -60,4 +60,4 @@ def chat():
     },
     config=config
   )
-  return response.content
+  return {"message": response.content, "language": dto.language}
