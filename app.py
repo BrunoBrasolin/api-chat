@@ -8,7 +8,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 app = Flask(__name__)
 
-load_dotenv()
+load_dotenv("/app/config/.env")
 
 class ChatDto:
   def __init__(self, **kwargs) -> None:
