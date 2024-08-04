@@ -4,11 +4,11 @@ import requests
 
 
 class CalculatePercentage(BaseModel):
-    value: str = Field(description="valor em real para ser usado na porcentagem")
+    value: str = Field(description="value in brazilian real to use to calculate the percentage")
 
-@tool("calculate_percentage", args_schema=CalculatePercentage)
+@tool("calculate_percentage", args_schema=CalculatePercentage, return_direct=True)
 def calculate_percentage(value: int):
-  """Calcula a porcentagem de valores monetários entre Bruno e Letícia"""
+  """Calculate the percentage of a money value between Bruno and Let'icia"""
   url = f"https://api.gamidas.dev.br/contas/conta?valor={value}"
   response = requests.get(url)
   return response.json()
