@@ -37,6 +37,6 @@ def handle_chat(messages, language):
     "message": messages
   })
   print("--------------------------------------------------------")
-  print(ai_msg)
+  print(ai_msg['output'])
   print("--------------------------------------------------------")
   return ai_msg
