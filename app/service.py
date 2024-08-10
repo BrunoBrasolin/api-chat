@@ -7,4 +7,4 @@ def rag_service(request):
 
   response = handle_chat(messages = dto.message, language = dto.language)
 
-  return {"message": "response.content", "language": dto.language}
+  return {"message": response['output'], "language": dto.language}
