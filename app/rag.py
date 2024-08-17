@@ -11,7 +11,7 @@ def handle_chat(messages, language):
 
   llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash").bind_tools(tools)
 
-  prompt = hub.pull('brunobrasolin/delma')
+  prompt = hub.pull('brunobrasolin/dalme')
 
   agent = create_react_agent(llm, tools, prompt)
 
