@@ -42,7 +42,7 @@ def transcript_audio(audio):
             os.remove(file_path)
 
     if not transcript:
-      return {"message": "response['output']", "language": "portuguese"}
+      return {"message": "Não entendi, poderia repetir?", "language": "portuguese"}
     
     response = handle_chat(input=transcript, language="portuguese")
 
