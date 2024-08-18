@@ -15,7 +15,7 @@ def message():
   result = rag_service(request.get_json())
   return result
 
-@app.route("/audio", methods=["POST"])
+@app.route("/transcript_audio", methods=["POST"])
 @cross_origin()
 def audio():
   audio = request.files['audio']

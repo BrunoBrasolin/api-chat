@@ -4,12 +4,12 @@ from app.rag import handle_chat
 import pvleopard
 
 def rag_service(request):
-  data = request
-  dto = ChatDto(**data)
+    data = request
+    dto = ChatDto(**data)
 
-  response = handle_chat(input=dto.message, language=dto.language)
+    response = handle_chat(input=dto.message, language=dto.language)
 
-  return {"message": response['output'], "language": dto.language}
+    return {"message": response['output'], "language": dto.language}
 
 def transcript_audio(audio):
     current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -41,9 +41,4 @@ def transcript_audio(audio):
         if os.path.exists(file_path): 
             os.remove(file_path)
 
-    if not transcript:
-      return {"message": "Não entendi, poderia repetir?", "language": "portuguese"}
-    
-    response = handle_chat(input=transcript, language="portuguese")
-
-    return {"message": response['output'], "language": "portuguese"}
+    return {"message": transcript}
