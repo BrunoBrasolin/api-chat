@@ -3,37 +3,46 @@ import tempfile
 from app.dto import ChatDto
 from app.rag import handle_chat
 import pvleopard
+import io
 
 def rag_service(request):
   data = request
   dto = ChatDto(**data)
 
-  response = handle_chat(messages = dto.message, language = dto.language)
+  response = handle_chat(input=dto.message, language=dto.language)
 
   return {"message": response['output'], "language": dto.language}
 
-def transcript_audio(audio_storage):
-  current_directory = os.path.dirname(os.path.abspath(__file__))
-  model_path = os.path.join(current_directory, "dalme-leopard.pv")
+def transcript_audio(audio):
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(current_directory, "dalme-leopard.pv")
+    transcript = ""
 
-  with tempfile.NamedTemporaryFile(delete=False, suffix=".pv") as temp_file:
-    file_path = temp_file.name
-    audio_storage.save(file_path)
+    leopard = None
+    try:
+        audio.save("audio.wav")
+        leopard = pvleopard.create(
+            access_key=os.getenv('LEOPARD_API_KEY'),
+            model_path=model_path
+        )
 
-  leopard = pvleopard.create(
-    access_key=os.getenv('LEOPARD_API_KEY'),
-    model_path=model_path)
+        transcript, words = leopard.process_file("audio.wav")
 
-  transcript, words = leopard.process_file(file_path)
-  print(transcript)
-  for word in words:
-    print(
-      "{word=\"%s\" start_sec=%.2f end_sec=%.2f confidence=%.2f}"
-      % (word.word, word.start_sec, word.end_sec, word.confidence))
+        print(f"--> {transcript} <--")
+        for word in words:
+            print(
+            "{word=\"%s\" start_sec=%.2f end_sec=%.2f confidence=%.2f}"
+            % (word.word, word.start_sec, word.end_sec, word.confidence))
+    except Exception as e:
+        print(f"Error occurred: {e}")
 
-  leopard.delete()
-  os.remove(file_path)
+    finally:
+        if leopard: 
+            leopard.delete()
 
-  response = handle_chat(messages=transcript, language="portuguese")
+    if not transcript:
+      return {"message": "response['output']", "language": "portuguese"}
+    
+    response = handle_chat(input=transcript, language="portuguese")
 
-  return {"message": response['output'], "language": "portuguese"}
+    return {"message": response['output'], "language": "portuguese"}

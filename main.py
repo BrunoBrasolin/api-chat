@@ -18,8 +18,8 @@ def message():
 @app.route("/audio", methods=["POST"])
 @cross_origin()
 def audio():
-  audio_file = request.files['audio']
-  result = transcript_audio(audio_file)
+  audio = request.files['audio']
+  result = transcript_audio(audio)
   return result
 
 @app.route("/healthcheck", methods=["GET"])

@@ -4,7 +4,7 @@ from langchain.agents import create_react_agent, AgentExecutor
 from langchain import hub
 from app.tool import calculate_percentage
 
-def handle_chat(messages, language):
+def handle_chat(input, language):
   search_tool = TavilySearchResults(max_results=2)
 
   tools=[calculate_percentage, search_tool]
@@ -15,18 +15,17 @@ def handle_chat(messages, language):
 
   agent = create_react_agent(llm, tools, prompt)
 
-  agent_executor = AgentExecutor(
+  
+  agent_executor = AgentExecutor.from_agent_and_tools(
                     agent=agent,
                     tools=tools,
                     verbose=True,
-                    handle_parsing_errors=True,
-                    max_execution_time=30,
                     max_iterations=3
                   )
   
   ai_msg = agent_executor.invoke({
     "language": language,
-    "message": messages
+    "input": input
   })
 
   print("--------------------------------------------------------")
