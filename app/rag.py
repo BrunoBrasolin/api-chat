@@ -15,7 +15,6 @@ def handle_chat(input, language):
 
   agent = create_react_agent(llm, tools, prompt)
 
-  
   agent_executor = AgentExecutor.from_agent_and_tools(
                     agent=agent,
                     tools=tools,
