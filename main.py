@@ -14,6 +14,8 @@ def message():
 
 @app.route("/transcript_audio", methods=["POST"])
 def audio():
+  if 'audio' not in request.files:
+    return 'No audio file', 400
   audio = request.files['audio']
   result = transcript_audio(audio)
   return result
